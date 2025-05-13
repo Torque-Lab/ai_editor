@@ -1,11 +1,9 @@
 
-
 import {Request, Response} from "express";
 import { SignInSchema, SignUpSchema } from "../types/authType";
 import { comparePassword, hashPassword } from "../utils/controller.util";
 import { prisma } from "@repo/db/client";
 import { handleError } from "../utils/controller.util";
-
 
 export const signUp = async (req: Request, res: Response) => {
     try {

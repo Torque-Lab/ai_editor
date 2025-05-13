@@ -7,7 +7,6 @@ export const app: express.Application = express();
 app.use(express.json());
 app.use(cors());
 app.use("/api/auth", authRoutes);
-
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "OK" });
 })
