@@ -10,4 +10,4 @@ app.use("/api/auth", authRoutes);
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "OK" });
 })
-app.use("/api/s3", s3Routes);
+app.use("/api", s3Routes);
