@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@google/genai": "^1.1.0",
     "@repo/db": "workspace:*",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.18",
