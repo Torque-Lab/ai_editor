@@ -1,9 +1,10 @@
 {
-  "name": "backend-common",
+  "name": "@repo/backend-common",
   "version": "1.0.0",
   "main": "index.js",
-  "exports": {
-    "./s3-util": "./S3/s3.controller.ts"
+  "exports":{
+    "./s3-util":"./S3/s3.controller.ts",
+    "./redis":"./redis/redis.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,9 +14,5 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.808.0",
-    "@aws-sdk/s3-presigned-post": "^3.808.0"
-  }
+  "description": ""
 }

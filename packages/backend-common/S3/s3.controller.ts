@@ -1,10 +1,6 @@
-import { handleError } from "../../../apps/http-server/utils/controller.util";
-import { Request, Response } from "express";
-import dotenv from "dotenv";
+
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 import { S3Client } from "@aws-sdk/client-s3";
-import { prisma } from "@repo/db/client";
-dotenv.config();
 function generateRandomString(length: number) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,7 +10,6 @@ function generateRandomString(length: number) {
     }
     return result;
 }
-
 export const s3 = new S3Client({
   region: process.env.AWS_REGION || "",
   credentials: {
@@ -23,7 +18,7 @@ export const s3 = new S3Client({
   },
 });
 
-export const createUploadUrl = async (req: Request, res: Response) => {
+export const createUploadUrl = async () => {
     const videoId=generateRandomString(18);
     const key=`ai_editor/${videoId}.mp4`;
     const params = {
@@ -41,26 +36,9 @@ export const createUploadUrl = async (req: Request, res: Response) => {
     
 try{
     const uploadUrl=await createPresignedPost(s3,params);
-    res.status(200).json({uploadUrl});
+    return uploadUrl;
 }
 catch(error){
-    handleError(res, error, "Failed to create upload URL");
+   console.log("failed to upload ",error)
 }
-}
-
-
-export const createVideo = async (req: Request, res: Response) => {
-    try {
-        const { fileUrl } = req.body;
-        const userId = "54545454";
-        const video = await prisma.video.create({
-            data: {
-                fileUrl,
-                userId,
-              },
-        });
-        res.status(201).json({ video });
-    } catch (error) {
-        handleError(res, error, "Failed to create video");
-    }
 }
