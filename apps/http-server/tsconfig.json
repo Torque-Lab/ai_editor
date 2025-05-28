@@ -4,6 +4,6 @@
       "rootDir": ".",
       "outDir": "./dist"
   },
-  "include": ["src", "routes", "controllers", "middleware", "util", "types"],
+  "include": ["src", "routes", "controllers", "middleware", "util", "types", "../../packages/backend-common/S3/s3.controller.ts"],
   "exclude": ["node_modules", "dist"]
 }

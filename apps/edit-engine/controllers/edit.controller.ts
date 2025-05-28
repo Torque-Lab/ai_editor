@@ -1,17 +1,15 @@
-import { s3 } from "./s3.controller";
+import { s3 } from "../../../packages/backend-common/S3/s3.controller";
 import { Request, Response } from "express";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-// We'll use the AWS SDK to create our own presigned URLs
 import { handleError } from "../utils/controller.util";
 import { spawn } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 
-// Temporary directory for video processing
+
 const TEMP_DIR = path.join(os.tmpdir(), 'ai_editor_videos');
 
-// Ensure temp directory exists
 if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR, { recursive: true });
 }

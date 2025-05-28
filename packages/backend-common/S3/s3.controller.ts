@@ -1,4 +1,4 @@
-import { handleError } from "../utils/controller.util";
+import { handleError } from "../../../apps/http-server/utils/controller.util";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
@@ -15,7 +15,7 @@ function generateRandomString(length: number) {
     return result;
 }
 
-const s3 = new S3Client({
+export const s3 = new S3Client({
   region: process.env.AWS_REGION || "",
   credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
@@ -39,8 +39,6 @@ export const createUploadUrl = async (req: Request, res: Response) => {
       },
     };
     
-      
-    console.log(params);
 try{
     const uploadUrl=await createPresignedPost(s3,params);
     res.status(200).json({uploadUrl});
@@ -54,7 +52,7 @@ catch(error){
 export const createVideo = async (req: Request, res: Response) => {
     try {
         const { fileUrl } = req.body;
-        const userId = req.user.id;
+        const userId = "54545454";
         const video = await prisma.video.create({
             data: {
                 fileUrl,
