@@ -1,11 +1,16 @@
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
 
 const API_KEY = process.env.LLM_API_KEY;
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+const ai = new OpenAI({ apiKey: API_KEY }); 
+export  async function test(){
+  const models = await ai.models.list();
+models.data.forEach(model => console.log(model.id));
+}
 
-export default async function parseToFFmpeg(userCommand: string) {
+export  async function parseToFFmpeg(userCommand: string) {
+
   const prompt = `
 You are an expert in FFmpeg command generation.
 
@@ -33,15 +38,14 @@ ffmpeg -i input.mp4 -ss 10 -to 20 -vf "crop=300:300" output.mp4
 Now generate the FFmpeg command for this request by user:
 ${userCommand}
 `;
-
-  const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: [
-        { role: "system", parts: [{ text: "You are a command-line assistant that only returns FFmpeg commands. No explanation, no extra output., no any extra thing just FFmpeg commad" }] },
-        { role: "user", parts: [{ text: prompt }] }
-      ]
-      
-  });
+const response = await ai.chat.completions.create({
+  model: "gpt-4o",
+  messages: [
+    { role: "system", content: "You are command parser, you take user input and only response with FFmpeg command which passed to a FFmpeg process" },
+    { role: "user", content: prompt}
+  ],
+});
 
   return response;
 }
+
